@@ -1,0 +1,215 @@
+<title>WI Rollout Tracker</title>
+<style>
+:root{
+  --navy:#152B47; --navy-2:#1c3757; --amber:#F0B429;
+  --bg:#f5f4f0; --panel:#ffffff; --ink:#1b2430; --sub:#5b6472; --line:#e2e0da;
+  --notstarted:#8a8f98; --notstarted-bg:#eceef0;
+  --progress:#3a6ea8; --progress-bg:#e5edf5;
+  --submitted:#b8790a; --submitted-bg:#fbeedd;
+  --approved:#2f7a4f; --approved-bg:#e7f3ea;
+}
+:root[data-theme="dark"]{
+  --bg:#12161c; --panel:#181f28; --ink:#e8eaed; --sub:#9aa4b2; --line:#2a323d;
+  --notstarted:#8a8f98; --notstarted-bg:#20242b;
+  --progress:#6ea3e0; --progress-bg:#1a2740;
+  --submitted:#f0a94e; --submitted-bg:#3a2a12;
+  --approved:#5fd48a; --approved-bg:#173325;
+  --navy:#3a6ea8;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12161c; --panel:#181f28; --ink:#e8eaed; --sub:#9aa4b2; --line:#2a323d;
+    --notstarted:#8a8f98; --notstarted-bg:#20242b;
+    --progress:#6ea3e0; --progress-bg:#1a2740;
+    --submitted:#f0a94e; --submitted-bg:#3a2a12;
+    --approved:#5fd48a; --approved-bg:#173325;
+    --navy:#3a6ea8;
+  }
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; padding:2.5rem 1.5rem 4rem;}
+.wrap{max-width:1080px;margin:0 auto;}
+.eyebrow{font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--amber); font-weight:700; margin:0 0 0.4rem;}
+h1{font-family:Georgia,'Times New Roman',serif; font-size:clamp(1.5rem,3vw,2.1rem); margin:0 0 0.3rem; color:var(--navy); text-wrap:balance;}
+:root[data-theme="dark"] h1{color:#9ec3ee;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) h1{color:#9ec3ee;}}
+.dek{color:var(--sub); font-size:0.9rem; margin:0 0 0.3rem;}
+.updated{color:var(--sub); font-size:0.78rem; font-style:italic;}
+
+.overall{
+  display:flex; gap:1.5rem; align-items:center; background:var(--panel); border:1px solid var(--line);
+  border-radius:10px; padding:1.1rem 1.4rem; margin:1.5rem 0 2rem; flex-wrap:wrap;
+}
+.ring{position:relative; width:84px; height:84px; flex:none;}
+.ring svg{transform:rotate(-90deg);}
+.ring-label{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.05rem; font-variant-numeric:tabular-nums; color:var(--navy);}
+:root[data-theme="dark"] .ring-label{color:#9ec3ee;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ring-label{color:#9ec3ee;}}
+.overall-stats{display:flex; gap:1.6rem; flex-wrap:wrap;}
+.ostat .n{font-size:1.3rem; font-weight:700; font-variant-numeric:tabular-nums;}
+.ostat .l{font-size:0.72rem; color:var(--sub); text-transform:uppercase; letter-spacing:0.05em;}
+.ostat.c-notstarted .n{color:var(--notstarted);}
+.ostat.c-progress .n{color:var(--progress);}
+.ostat.c-submitted .n{color:var(--submitted);}
+.ostat.c-approved .n{color:var(--approved);}
+
+.group{background:var(--panel); border:1px solid var(--line); border-radius:10px; margin-bottom:1rem; overflow:hidden;}
+.group-head{display:flex; justify-content:space-between; align-items:center; padding:0.8rem 1.1rem; background:var(--navy-2); color:#fff; gap:1rem; flex-wrap:wrap;}
+.group-title{font-weight:700; font-size:0.95rem;}
+.group-owner{font-size:0.78rem; opacity:0.85;}
+.bar-wrap{flex:1; min-width:120px; height:8px; background:rgba(255,255,255,0.2); border-radius:99px; overflow:hidden;}
+.bar-fill{height:100%; background:var(--amber); border-radius:99px;}
+.group-frac{font-size:0.75rem; font-weight:700; background:rgba(255,255,255,0.15); padding:0.15rem 0.5rem; border-radius:99px; white-space:nowrap;}
+
+table{width:100%; border-collapse:collapse; font-size:0.86rem;}
+td{padding:0.55rem 1.1rem; border-bottom:1px solid var(--line); vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+.wi-name{font-weight:600;}
+.pill{display:inline-flex; align-items:center; gap:0.35rem; font-size:0.72rem; font-weight:700; padding:0.22rem 0.6rem; border-radius:99px; white-space:nowrap;}
+.pill::before{content:''; width:6px; height:6px; border-radius:50%; background:currentColor;}
+.p-notstarted{background:var(--notstarted-bg); color:var(--notstarted);}
+.p-progress{background:var(--progress-bg); color:var(--progress);}
+.p-submitted{background:var(--submitted-bg); color:var(--submitted);}
+.p-approved{background:var(--approved-bg); color:var(--approved);}
+
+.legend{display:flex; gap:1.1rem; flex-wrap:wrap; margin-bottom:1.1rem; font-size:0.78rem; color:var(--sub);}
+.legend span{display:inline-flex; align-items:center; gap:0.4rem;}
+.legend .pill{padding:0.15rem 0.55rem;}
+
+@media (max-width:600px){ .group-owner{display:none;} td{padding:0.5rem 0.7rem;} }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">AER Operations &middot; Documentation Project</p>
+  <h1>Work Instruction Rollout Tracker</h1>
+  <p class="dek">Status across all 34 internal WIs, due August 31.</p>
+  <p class="updated">Last updated: July 21, 2026 &mdash; kickoff sent, all items Not Started</p>
+
+  <div class="overall">
+    <div class="ring">
+      <svg width="84" height="84" viewBox="0 0 84 84">
+        <circle cx="42" cy="42" r="36" fill="none" stroke="var(--notstarted-bg)" stroke-width="9"></circle>
+        <circle cx="42" cy="42" r="36" fill="none" stroke="var(--approved)" stroke-width="9"
+          stroke-dasharray="226.19" stroke-dashoffset="226.19" stroke-linecap="round"></circle>
+      </svg>
+      <div class="ring-label">0%</div>
+    </div>
+    <div class="overall-stats">
+      <div class="ostat c-notstarted"><div class="n">34</div><div class="l">Not started</div></div>
+      <div class="ostat c-progress"><div class="n">0</div><div class="l">In progress</div></div>
+      <div class="ostat c-submitted"><div class="n">0</div><div class="l">Submitted</div></div>
+      <div class="ostat c-approved"><div class="n">0</div><div class="l">Approved</div></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span class="pill p-notstarted">Not started</span>
+    <span class="pill p-progress">In progress</span>
+    <span class="pill p-submitted">Submitted for review</span>
+    <span class="pill p-approved">Approved</span>
+  </div>
+
+  <div class="group">
+    <div class="group-head">
+      <span class="group-title">Receiving / Sorting / Data Capture / Fulfillment</span>
+      <span class="group-owner">Afshan &amp; Ivan</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+      <span class="group-frac">0 / 12</span>
+    </div>
+    <table>
+      <tbody>
+        <tr><td class="wi-name">Receiving &ndash; General</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Receiving &ndash; Amentum</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Receiving &ndash; Damaged Material</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Receiving &ndash; Pictures</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">RMA Receiving &ndash; Makor</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Sorting &ndash; General</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Data Capture &ndash; General</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Data Capture Triage</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tracked Recycling &ndash; General</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Order Fulfillment &ndash; Asset/Parts</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Order Fulfillment &ndash; FM Legacy</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Order Fulfillment &ndash; Commodity</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="group">
+    <div class="group-head">
+      <span class="group-title">Tech</span>
+      <span class="group-owner">TJ &amp; Nic</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+      <span class="group-frac">0 / 13</span>
+    </div>
+    <table>
+      <tbody>
+        <tr><td class="wi-name">Tech &ndash; General</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; PhoneCheck</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; MacCheck</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; WipeOS</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; WipeOS (Loose Drives)</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; Drive Management</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; Networking</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; Inventory</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; Cleaning</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; Parts</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; Part SKUs</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; Supervisor Work Order Check List</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Tech &ndash; Device Locks</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="group">
+    <div class="group-head">
+      <span class="group-title">Scheduling &amp; Logistics</span>
+      <span class="group-owner">Judi &amp; Sabrina</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+      <span class="group-frac">0 / 2</span>
+    </div>
+    <table>
+      <tbody>
+        <tr><td class="wi-name">Scheduling</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">Logistics</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="group">
+    <div class="group-head">
+      <span class="group-title">Accounting</span>
+      <span class="group-owner">Traci &amp; Brian</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+      <span class="group-frac">0 / 1</span>
+    </div>
+    <table><tbody><tr><td class="wi-name">Accounting</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr></tbody></table>
+  </div>
+
+  <div class="group">
+    <div class="group-head">
+      <span class="group-title">Settlements</span>
+      <span class="group-owner">Lillian &amp; Ella</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+      <span class="group-frac">0 / 1</span>
+    </div>
+    <table><tbody><tr><td class="wi-name">Settlements</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr></tbody></table>
+  </div>
+
+  <div class="group">
+    <div class="group-head">
+      <span class="group-title">Sales Order Creation / RMA</span>
+      <span class="group-owner">Jeremy &amp; Juliann (+ Afshan, Ivan for RMA)</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+      <span class="group-frac">0 / 5</span>
+    </div>
+    <table>
+      <tbody>
+        <tr><td class="wi-name">Sales Order Creation</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">RMA Creation &ndash; Makor</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">RMA Creation &ndash; FM</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">RMA Processing &ndash; Makor</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+        <tr><td class="wi-name">RMA Processing &ndash; FM</td><td style="text-align:right"><span class="pill p-notstarted">Not started</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
