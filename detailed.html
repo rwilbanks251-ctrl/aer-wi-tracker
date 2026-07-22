@@ -1,0 +1,156 @@
+<title>Work Instructions Review Tracker</title>
+<style>
+:root{--bg:#eef1f5;--surface:#fff;--surface-2:#f7f9fb;--ink:#16202e;--muted:#5b6775;--faint:#8a95a4;--border:#e0e5ec;--navy:#152B47;--amber:#F0B429;
+--assigned:#0f6e56;--assigned-bg:#e1f5ee;--rob:#185fa5;--rob-bg:#e6f1fb;--ap:#534ab7;--ap-bg:#eeedfe;
+--qcbd:#854f0b;--qcbd-bg:#faeeda;--complete:#3b6d11;--complete-bg:#eaf3de;
+--shadow:0 1px 2px rgba(18,32,48,.06),0 4px 16px rgba(18,32,48,.05);--radius:14px;--sans:"Segoe UI",-apple-system,BlinkMacSystemFont,Arial,sans-serif;}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1621;--surface:#16202e;--surface-2:#1b2735;--ink:#e8edf4;--muted:#9aa6b6;--faint:#6f7d8e;--border:#26313f;--navy:#0c1a2b;
+--assigned:#5dcaa5;--assigned-bg:#0e3329;--rob:#7ec3ec;--rob-bg:#123147;--ap:#afa9ec;--ap-bg:#241f4a;
+--qcbd:#efab3f;--qcbd-bg:#332714;--complete:#97c459;--complete-bg:#1f2e14;
+--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);}}
+:root[data-theme="light"]{--bg:#eef1f5;--surface:#fff;--surface-2:#f7f9fb;--ink:#16202e;--muted:#5b6775;--faint:#8a95a4;--border:#e0e5ec;--navy:#152B47;--assigned:#0f6e56;--assigned-bg:#e1f5ee;--rob:#185fa5;--rob-bg:#e6f1fb;--ap:#534ab7;--ap-bg:#eeedfe;--qcbd:#854f0b;--qcbd-bg:#faeeda;--complete:#3b6d11;--complete-bg:#eaf3de;}
+:root[data-theme="dark"]{--bg:#0e1621;--surface:#16202e;--surface-2:#1b2735;--ink:#e8edf4;--muted:#9aa6b6;--faint:#6f7d8e;--border:#26313f;--navy:#0c1a2b;--assigned:#5dcaa5;--assigned-bg:#0e3329;--rob:#7ec3ec;--rob-bg:#123147;--ap:#afa9ec;--ap-bg:#241f4a;--qcbd:#efab3f;--qcbd-bg:#332714;--complete:#97c459;--complete-bg:#1f2e14;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 22px 64px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700}
+h1{font-size:clamp(24px,3.4vw,33px);line-height:1.15;margin:.28em 0 .15em;letter-spacing:-.01em}
+.rule{height:3px;background:var(--amber);border-radius:2px;width:64px;margin:18px 0 22px}
+.flowwrap{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+.flowcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px}
+.flowscroll{overflow-x:auto}
+.flowscroll svg{display:block}
+.rework2{font-size:12.5px;color:var(--muted);margin:0 2px 18px}
+.rework2 b{color:var(--ink);font-weight:700}
+.bar{display:flex;align-items:center;gap:12px;margin:0 2px 12px;font-size:12px;color:var(--faint)}
+.bar button{font:inherit;font-weight:700;color:var(--rob);background:none;border:1px solid var(--border);border-radius:99px;padding:3px 12px;cursor:pointer}
+.bar button:hover{border-color:var(--rob)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.tblwrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:820px}
+thead th{position:sticky;top:0;text-align:left;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);font-weight:700;padding:9px 12px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+tbody td{padding:7px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+td.ttl{font-weight:700}
+td.team,td.asg,td.due,td.upd{color:var(--muted);white-space:nowrap;font-size:12px}
+td.upd,td.due{font-variant-numeric:tabular-nums}
+td.due.overdue{color:var(--qcbd);font-weight:700}
+.dash{color:var(--faint)}
+.chip{font-size:10.5px;font-weight:700;letter-spacing:.02em;padding:2px 9px;border-radius:99px;white-space:nowrap;display:inline-block}
+.st-assigned{color:var(--assigned);background:var(--assigned-bg)}.st-rob{color:var(--rob);background:var(--rob-bg)}.st-ap{color:var(--ap);background:var(--ap-bg)}.st-qcbd{color:var(--qcbd);background:var(--qcbd-bg)}.st-complete{color:var(--complete);background:var(--complete-bg);font-weight:800}
+.banner{background:var(--qcbd-bg);color:var(--qcbd);border:1px solid color-mix(in srgb,var(--qcbd) 40%,transparent);border-radius:var(--radius);padding:14px 16px;font-size:13px;line-height:1.6}
+.banner code{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+footer{margin-top:26px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+<div class="wrap">
+<div class="eyebrow">AER Worldwide &middot; Operations &middot; Documentation Project</div>
+<h1>Work Instructions Review Tracker</h1>
+<div class="rule"></div>
+<div class="flowwrap"><div class="flowcard"><div class="flowscroll"><svg viewBox="0 0 1080 130" style="width:100%;height:auto"><defs><marker id="ah" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--faint)"/></marker></defs><rect x="20" y="58" width="150" height="46" rx="8" style="fill:var(--assigned-bg);stroke:var(--assigned)" stroke-width="1.5"/><text x="95" y="85" text-anchor="middle" style="fill:var(--assigned);font-weight:700;font-size:11px;font-family:var(--sans)">Assigned</text><rect x="250" y="58" width="170" height="46" rx="8" style="fill:var(--rob-bg);stroke:var(--rob)" stroke-width="1.5"/><text x="335" y="85" text-anchor="middle" style="fill:var(--rob);font-weight:700;font-size:11px;font-family:var(--sans)">Rob Review</text><rect x="470" y="58" width="190" height="46" rx="8" style="fill:var(--ap-bg);stroke:var(--ap)" stroke-width="1.5"/><text x="565" y="85" text-anchor="middle" style="fill:var(--ap);font-weight:700;font-size:11px;font-family:var(--sans)">Andrew Paola Review</text><rect x="720" y="58" width="180" height="46" rx="8" style="fill:var(--qcbd-bg);stroke:var(--qcbd)" stroke-width="1.5"/><text x="810" y="85" text-anchor="middle" style="fill:var(--qcbd);font-weight:700;font-size:11px;font-family:var(--sans)">QCBD Approval</text><rect x="940" y="58" width="120" height="46" rx="8" style="fill:var(--complete-bg);stroke:var(--complete)" stroke-width="1.5"/><text x="1000" y="85" text-anchor="middle" style="fill:var(--complete);font-weight:700;font-size:11px;font-family:var(--sans)">Complete</text><line x1="170" y1="81" x2="250" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><line x1="420" y1="81" x2="470" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><line x1="660" y1="81" x2="720" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><line x1="900" y1="81" x2="940" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><path d="M319 58 C 319 14 351 14 351 58" fill="none" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)" stroke-dasharray="5 3"/><path d="M565 58 C 555 6 379 6 375 58" fill="none" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)" stroke-dasharray="5 3"/><text x="271" y="34" text-anchor="middle" style="fill:var(--assigned);font-size:9px;font-weight:700;font-family:var(--sans)">P1 Rework</text><text x="480" y="40" text-anchor="middle" style="fill:var(--assigned);font-size:9px;font-weight:700;font-family:var(--sans)">P2 Rework</text></svg></div></div></div><p class="rework2">Every WI is a new build &mdash; no obsolete lane. Rework loops (<b>P1</b>/<b>P2</b>) send it back to <b>Rob Review</b>.</p>
+<div class="bar"><button id="refresh" type="button">Refresh now</button><span id="status">Loading&hellip;</span></div>
+<div id="mount"></div>
+<footer><span>Detailed review-pipeline view &middot; live from Google Sheet</span><span>AER Worldwide &mdash; proprietary &amp; confidential</span></footer>
+</div>
+<script>
+var SHEET_CSV_URL = "PASTE_SHEET_CSV_URL_HERE";
+var LABELCLASS = {"Assigned": "assigned", "Rob Review": "rob", "Andrew Paola Review": "ap", "P1 Rework": "assigned", "P2 Rework": "assigned", "Waiting for QCBD Approval": "qcbd", "Complete": "complete"};
+
+function csvParse(text){
+  var rows=[], row=[], f="", i=0, q=false, c;
+  while(i<text.length){
+    c=text[i];
+    if(q){
+      if(c==='"'){ if(text[i+1]==='"'){f+='"';i++;} else q=false; }
+      else f+=c;
+    } else {
+      if(c==='"') q=true;
+      else if(c===','){ row.push(f); f=""; }
+      else if(c==='\r'){}
+      else if(c==='\n'){ row.push(f); rows.push(row); row=[]; f=""; }
+      else f+=c;
+    }
+    i++;
+  }
+  if(f.length||row.length){ row.push(f); rows.push(row); }
+  return rows;
+}
+
+function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function render(objs){
+  var today = new Date(new Date().toDateString());
+  var html='<div class="card"><div class="tblwrap"><table>'+
+    '<thead><tr><th>WI Name</th><th>Team</th><th>Assigned To</th><th>Due Date</th><th>Status</th><th>Last Updated</th></tr></thead><tbody>';
+  objs.forEach(function(o){
+    var cls = LABELCLASS[o.status] || "assigned";
+    var overdue=false;
+    if(o.due && cls!=="complete"){ var dt=new Date(o.due); if(!isNaN(dt.getTime()) && dt<today) overdue=true; }
+    var teamCell = o.team ? esc(o.team) : '<span class="dash">—</span>';
+    var asgCell = o.assigned ? esc(o.assigned) : '<span class="dash">—</span>';
+    var dueCell = o.due ? esc(o.due) : '<span class="dash">—</span>';
+    html += '<tr><td class="ttl">'+esc(o.name)+'</td>'+
+      '<td class="team">'+teamCell+'</td>'+
+      '<td class="asg">'+asgCell+'</td>'+
+      '<td class="due'+(overdue?' overdue':'')+'">'+dueCell+'</td>'+
+      '<td><span class="chip st-'+cls+'">'+esc(o.status||"Assigned")+'</span></td>'+
+      '<td class="upd">'+(o.updated?esc(o.updated):'<span class="dash">—</span>')+'</td></tr>';
+  });
+  html += '</tbody></table></div></div>';
+  document.getElementById("mount").innerHTML = html;
+}
+
+function banner(msg){ document.getElementById("mount").innerHTML='<div class="banner">'+msg+'</div>'; }
+
+function colIdx(headers, name){
+  for(var i=0;i<headers.length;i++){ if(headers[i].trim().toLowerCase()===name) return i; }
+  return -1;
+}
+
+function load(){
+  var st=document.getElementById("status");
+  if(!SHEET_CSV_URL || SHEET_CSV_URL.indexOf("PASTE_")===0){
+    st.textContent="";
+    banner('<b>Not connected yet.</b> Publish the Google Sheet to the web as CSV '+
+      '(File &rarr; Share &rarr; Publish to web &rarr; Tracker tab &rarr; CSV) and send Rob the link, '+
+      'then this dashboard goes live. Expected columns: <code>WI Name, Team, Assigned To, Due Date, Status, Last Updated</code>.');
+    return;
+  }
+  st.textContent="Loading…";
+  var url = SHEET_CSV_URL + (SHEET_CSV_URL.indexOf("?")>-1?"&":"?") + "_cb=" + Date.now();
+  fetch(url).then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
+  .then(function(txt){
+    var rows = csvParse(txt).filter(function(r){ return r.some(function(c){return (c||"").trim();}); });
+    if(!rows.length){ banner("The spreadsheet is empty."); return; }
+    var h = rows[0];
+    var iName=colIdx(h,"wi name"), iTeam=colIdx(h,"team"), iStat=colIdx(h,"status"),
+        iAsg=colIdx(h,"assigned to"), iDue=colIdx(h,"due date"), iUpd=colIdx(h,"last updated");
+    if(iName<0){ banner("Couldn't find the <code>WI Name</code> column. Don't rename the headers."); return; }
+    var objs=[];
+    for(var r=1;r<rows.length;r++){
+      var row=rows[r];
+      var name=(row[iName]||"").trim();
+      if(!name) continue;
+      objs.push({
+        name:name,
+        team:iTeam>-1?(row[iTeam]||"").trim():"",
+        assigned:iAsg>-1?(row[iAsg]||"").trim():"",
+        due:iDue>-1?(row[iDue]||"").trim():"",
+        updated:iUpd>-1?(row[iUpd]||"").trim():"",
+        status:iStat>-1?(row[iStat]||"").trim():"Assigned"
+      });
+    }
+    render(objs);
+    var t=new Date();
+    st.textContent="Updated "+t.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})+" · "+objs.length+" work instructions";
+  })
+  .catch(function(e){
+    st.textContent="";
+    banner('<b>Live data can\'t load here.</b> This is the live team dashboard — open it on GitHub Pages: '+
+      '<a href="https://rwilbanks251-ctrl.github.io/aer-wi-tracker/detailed.html">rwilbanks251-ctrl.github.io/aer-wi-tracker/detailed.html</a>. '+
+      '(The claude.ai artifact copy is blocked from fetching Google Sheets. If you ARE on GitHub Pages and see this, check the sheet is still published to the web. '+esc(String(e))+')');
+  });
+}
+
+document.getElementById("refresh").addEventListener("click", load);
+load();
+setInterval(load, 60000);
+</script>
