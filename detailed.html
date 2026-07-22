@@ -15,12 +15,20 @@
 .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700}
 h1{font-size:clamp(24px,3.4vw,33px);line-height:1.15;margin:.28em 0 .15em;letter-spacing:-.01em}
 .rule{height:3px;background:var(--amber);border-radius:2px;width:64px;margin:18px 0 22px}
-.flowwrap{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+.flowwrap{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
 .flowcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px}
 .flowscroll{overflow-x:auto}
 .flowscroll svg{display:block}
-.rework2{font-size:12.5px;color:var(--muted);margin:0 2px 18px}
-.rework2 b{color:var(--ink);font-weight:700}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:10px;margin:0 0 20px}
+.tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;box-shadow:var(--shadow);border-top:3px solid var(--border);cursor:pointer;user-select:none}
+.tile.active{outline:2px solid var(--amber);outline-offset:-2px}
+.tile.assigned{border-top-color:var(--assigned)}.tile.rob{border-top-color:var(--rob)}.tile.ap{border-top-color:var(--ap)}.tile.qcbd{border-top-color:var(--qcbd)}.tile.complete{border-top-color:var(--complete)}
+.tile .n{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.tile.assigned .n{color:var(--assigned)}.tile.rob .n{color:var(--rob)}.tile.ap .n{color:var(--ap)}.tile.qcbd .n{color:var(--qcbd)}.tile.complete .n{color:var(--complete)}
+.tile .l{font-size:11.5px;color:var(--muted);margin-top:2px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px}
+.filters input[type=search]{flex:1;min-width:180px;font:inherit;font-size:13px;padding:8px 12px;border:1px solid var(--border);border-radius:99px;background:var(--surface);color:var(--ink)}
+.filters select{font:inherit;font-size:13px;padding:8px 12px;border:1px solid var(--border);border-radius:99px;background:var(--surface);color:var(--ink)}
 .bar{display:flex;align-items:center;gap:12px;margin:0 2px 12px;font-size:12px;color:var(--faint)}
 .bar button{font:inherit;font-weight:700;color:var(--rob);background:none;border:1px solid var(--border);border-radius:99px;padding:3px 12px;cursor:pointer}
 .bar button:hover{border-color:var(--rob)}
@@ -35,24 +43,31 @@ td.team,td.asg,td.due,td.upd{color:var(--muted);white-space:nowrap;font-size:12p
 td.upd,td.due{font-variant-numeric:tabular-nums}
 td.due.overdue{color:var(--qcbd);font-weight:700}
 .dash{color:var(--faint)}
+.empty{padding:22px;text-align:center;color:var(--muted);font-size:13px}
 .chip{font-size:10.5px;font-weight:700;letter-spacing:.02em;padding:2px 9px;border-radius:99px;white-space:nowrap;display:inline-block}
 .st-assigned{color:var(--assigned);background:var(--assigned-bg)}.st-rob{color:var(--rob);background:var(--rob-bg)}.st-ap{color:var(--ap);background:var(--ap-bg)}.st-qcbd{color:var(--qcbd);background:var(--qcbd-bg)}.st-complete{color:var(--complete);background:var(--complete-bg);font-weight:800}
 .banner{background:var(--qcbd-bg);color:var(--qcbd);border:1px solid color-mix(in srgb,var(--qcbd) 40%,transparent);border-radius:var(--radius);padding:14px 16px;font-size:13px;line-height:1.6}
 .banner code{font-family:ui-monospace,Consolas,monospace;font-size:12px}
-footer{margin-top:26px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 </style>
 <div class="wrap">
-<div class="eyebrow">AER Worldwide &middot; Operations &middot; Documentation Project</div>
+<div class="eyebrow">AER Worldwide &middot; Operations</div>
 <h1>Work Instructions Review Tracker</h1>
 <div class="rule"></div>
-<div class="flowwrap"><div class="flowcard"><div class="flowscroll"><svg viewBox="0 0 1080 130" style="width:100%;height:auto"><defs><marker id="ah" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--faint)"/></marker></defs><rect x="20" y="58" width="150" height="46" rx="8" style="fill:var(--assigned-bg);stroke:var(--assigned)" stroke-width="1.5"/><text x="95" y="85" text-anchor="middle" style="fill:var(--assigned);font-weight:700;font-size:11px;font-family:var(--sans)">Assigned</text><rect x="250" y="58" width="170" height="46" rx="8" style="fill:var(--rob-bg);stroke:var(--rob)" stroke-width="1.5"/><text x="335" y="85" text-anchor="middle" style="fill:var(--rob);font-weight:700;font-size:11px;font-family:var(--sans)">Rob Review</text><rect x="470" y="58" width="190" height="46" rx="8" style="fill:var(--ap-bg);stroke:var(--ap)" stroke-width="1.5"/><text x="565" y="85" text-anchor="middle" style="fill:var(--ap);font-weight:700;font-size:11px;font-family:var(--sans)">Andrew Paola Review</text><rect x="720" y="58" width="180" height="46" rx="8" style="fill:var(--qcbd-bg);stroke:var(--qcbd)" stroke-width="1.5"/><text x="810" y="85" text-anchor="middle" style="fill:var(--qcbd);font-weight:700;font-size:11px;font-family:var(--sans)">QCBD Approval</text><rect x="940" y="58" width="120" height="46" rx="8" style="fill:var(--complete-bg);stroke:var(--complete)" stroke-width="1.5"/><text x="1000" y="85" text-anchor="middle" style="fill:var(--complete);font-weight:700;font-size:11px;font-family:var(--sans)">Complete</text><line x1="170" y1="81" x2="250" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><line x1="420" y1="81" x2="470" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><line x1="660" y1="81" x2="720" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><line x1="900" y1="81" x2="940" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><path d="M319 58 C 319 14 351 14 351 58" fill="none" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)" stroke-dasharray="5 3"/><path d="M565 58 C 555 6 379 6 375 58" fill="none" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)" stroke-dasharray="5 3"/><text x="271" y="34" text-anchor="middle" style="fill:var(--assigned);font-size:9px;font-weight:700;font-family:var(--sans)">P1 Rework</text><text x="480" y="40" text-anchor="middle" style="fill:var(--assigned);font-size:9px;font-weight:700;font-family:var(--sans)">P2 Rework</text></svg></div></div></div><p class="rework2">Every WI is a new build &mdash; no obsolete lane. Rework loops (<b>P1</b>/<b>P2</b>) send it back to <b>Rob Review</b>.</p>
+<div class="flowwrap"><div class="flowcard"><div class="flowscroll"><svg viewBox="0 0 1080 130" style="width:100%;height:auto"><defs><marker id="ah" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--faint)"/></marker></defs><rect x="20" y="58" width="150" height="46" rx="8" style="fill:var(--assigned-bg);stroke:var(--assigned)" stroke-width="1.5"/><text x="95" y="85" text-anchor="middle" style="fill:var(--assigned);font-weight:700;font-size:11px;font-family:var(--sans)">Assigned</text><rect x="250" y="58" width="170" height="46" rx="8" style="fill:var(--rob-bg);stroke:var(--rob)" stroke-width="1.5"/><text x="335" y="85" text-anchor="middle" style="fill:var(--rob);font-weight:700;font-size:11px;font-family:var(--sans)">Rob Review</text><rect x="470" y="58" width="190" height="46" rx="8" style="fill:var(--ap-bg);stroke:var(--ap)" stroke-width="1.5"/><text x="565" y="85" text-anchor="middle" style="fill:var(--ap);font-weight:700;font-size:11px;font-family:var(--sans)">Andrew Paola Review</text><rect x="720" y="58" width="180" height="46" rx="8" style="fill:var(--qcbd-bg);stroke:var(--qcbd)" stroke-width="1.5"/><text x="810" y="85" text-anchor="middle" style="fill:var(--qcbd);font-weight:700;font-size:11px;font-family:var(--sans)">QCBD Approval</text><rect x="940" y="58" width="120" height="46" rx="8" style="fill:var(--complete-bg);stroke:var(--complete)" stroke-width="1.5"/><text x="1000" y="85" text-anchor="middle" style="fill:var(--complete);font-weight:700;font-size:11px;font-family:var(--sans)">Complete</text><line x1="170" y1="81" x2="250" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><line x1="420" y1="81" x2="470" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><line x1="660" y1="81" x2="720" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><line x1="900" y1="81" x2="940" y2="81" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)"/><path d="M319 58 C 319 14 351 14 351 58" fill="none" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)" stroke-dasharray="5 3"/><path d="M565 58 C 555 6 379 6 375 58" fill="none" stroke="var(--faint)" stroke-width="1.5" marker-end="url(#ah)" stroke-dasharray="5 3"/><text x="271" y="34" text-anchor="middle" style="fill:var(--assigned);font-size:9px;font-weight:700;font-family:var(--sans)">P1 Rework</text><text x="480" y="40" text-anchor="middle" style="fill:var(--assigned);font-size:9px;font-weight:700;font-family:var(--sans)">P2 Rework</text></svg></div></div></div>
+<div id="tiles" class="tiles"></div>
+<div class="filters">
+  <input type="search" id="q" placeholder="Search WI name, team, or assignee&hellip;">
+  <select id="statusFilter"><option value="">All statuses</option><option value="Assigned">Assigned</option><option value="Rob Review">Rob Review</option><option value="Andrew Paola Review">Andrew Paola Review</option><option value="P1 Rework">P1 Rework</option><option value="P2 Rework">P2 Rework</option><option value="Waiting for QCBD Approval">Waiting for QCBD Approval</option><option value="Complete">Complete</option></select>
+</div>
 <div class="bar"><button id="refresh" type="button">Refresh now</button><span id="status">Loading&hellip;</span></div>
 <div id="mount"></div>
-<footer><span>Detailed review-pipeline view &middot; live from Google Sheet</span><span>AER Worldwide &mdash; proprietary &amp; confidential</span></footer>
 </div>
 <script>
 var SHEET_CSV_URL = "PASTE_SHEET_CSV_URL_HERE";
 var LABELCLASS = {"Assigned": "assigned", "Rob Review": "rob", "Andrew Paola Review": "ap", "P1 Rework": "assigned", "P2 Rework": "assigned", "Waiting for QCBD Approval": "qcbd", "Complete": "complete"};
+var TILES = [["assigned", "Assigned", ["Assigned", "P1 Rework", "P2 Rework"]], ["rob", "Rob Review", ["Rob Review"]], ["ap", "Andrew &amp; Paola Review", ["Andrew Paola Review"]], ["qcbd", "Waiting for QCBD", ["Waiting for QCBD Approval"]], ["complete", "Complete", ["Complete"]]];
+var ALL = [];
+var activeTile = "";
 
 function csvParse(text){
   var rows=[], row=[], f="", i=0, q=false, c;
@@ -76,8 +91,45 @@ function csvParse(text){
 
 function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
-function render(objs){
+function renderTiles(){
+  var html = "";
+  TILES.forEach(function(t){
+    var cls = t[0], label = t[1], statuses = t[2];
+    var n = ALL.filter(function(o){ return statuses.indexOf(o.status) > -1; }).length;
+    html += '<div class="tile '+cls+(activeTile===cls?' active':'')+'" data-cls="'+cls+'">'+
+      '<div class="n">'+n+'</div><div class="l">'+label+'</div></div>';
+  });
+  document.getElementById("tiles").innerHTML = html;
+  Array.prototype.forEach.call(document.querySelectorAll(".tile"), function(el){
+    el.addEventListener("click", function(){
+      activeTile = (activeTile === el.dataset.cls) ? "" : el.dataset.cls;
+      renderTiles();
+      applyFilters();
+    });
+  });
+}
+
+function applyFilters(){
+  var q = (document.getElementById("q").value || "").toLowerCase();
+  var statusSel = document.getElementById("statusFilter").value;
+  var filtered = ALL.filter(function(o){
+    if(activeTile && (LABELCLASS[o.status] || "assigned") !== activeTile) return false;
+    if(statusSel && o.status !== statusSel) return false;
+    if(q){
+      var hay = (o.name+" "+o.team+" "+o.assigned).toLowerCase();
+      if(hay.indexOf(q) === -1) return false;
+    }
+    return true;
+  });
+  renderTable(filtered);
+}
+
+function renderTable(objs){
   var today = new Date(new Date().toDateString());
+  if(!objs.length){
+    document.getElementById("mount").innerHTML = '<div class="card"><div class="empty">No Work Instructions match this filter.</div></div>';
+    return;
+  }
   var html='<div class="card"><div class="tblwrap"><table>'+
     '<thead><tr><th>WI Name</th><th>Team</th><th>Assigned To</th><th>Due Date</th><th>Status</th><th>Last Updated</th></tr></thead><tbody>';
   objs.forEach(function(o){
@@ -98,7 +150,7 @@ function render(objs){
   document.getElementById("mount").innerHTML = html;
 }
 
-function banner(msg){ document.getElementById("mount").innerHTML='<div class="banner">'+msg+'</div>'; }
+function banner(msg){ document.getElementById("mount").innerHTML='<div class="banner">'+msg+'</div>'; document.getElementById("tiles").innerHTML=""; }
 
 function colIdx(headers, name){
   for(var i=0;i<headers.length;i++){ if(headers[i].trim().toLowerCase()===name) return i; }
@@ -138,7 +190,9 @@ function load(){
         status:iStat>-1?(row[iStat]||"").trim():"Assigned"
       });
     }
-    render(objs);
+    ALL = objs;
+    renderTiles();
+    applyFilters();
     var t=new Date();
     st.textContent="Updated "+t.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})+" · "+objs.length+" work instructions";
   })
@@ -151,6 +205,8 @@ function load(){
 }
 
 document.getElementById("refresh").addEventListener("click", load);
+document.getElementById("q").addEventListener("input", applyFilters);
+document.getElementById("statusFilter").addEventListener("change", applyFilters);
 load();
 setInterval(load, 60000);
 </script>
