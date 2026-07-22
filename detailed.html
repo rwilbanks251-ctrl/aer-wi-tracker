@@ -44,6 +44,7 @@ thead th{position:sticky;top:0;text-align:left;font-size:11px;letter-spacing:.05
 tbody td{padding:7px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
 tbody tr:last-child td{border-bottom:none}
 td.ttl{font-weight:700}
+.doclink{text-decoration:none;font-size:12px;margin-left:2px}
 td.team,td.asg,td.due,td.upd{color:var(--muted);white-space:nowrap;font-size:12px}
 td.upd,td.due{font-variant-numeric:tabular-nums}
 td.due.overdue{color:var(--qcbd);font-weight:700}
@@ -71,7 +72,7 @@ td.due.overdue{color:var(--qcbd);font-weight:700}
 <div id="mount"></div>
 </div>
 <script>
-var SHEET_CSV_URL = "PASTE_SHEET_CSV_URL_HERE";
+var SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ99dF7geUPWPab7d7AZiejBHVmCPiwPddBxqjObsmza0d6K4Vk0sWUkVw_hpB23yDqcKGPkSDWdSZG/pub?output=csv";
 var LABELCLASS = {"Assigned": "assigned", "Rob Review": "rob", "Andrew Paola Review": "ap", "P1 Rework": "assigned", "P2 Rework": "assigned", "Waiting for QCBD Approval": "qcbd", "Complete": "complete"};
 var STATUS_ORDER = ["Assigned", "Rob Review", "Andrew Paola Review", "P1 Rework", "P2 Rework", "Waiting for QCBD Approval", "Complete"];
 
@@ -156,7 +157,8 @@ function draw(){
     var teamCell=o.team?esc(o.team):'<span class="dash">—</span>';
     var asgCell=o.assigned?esc(o.assigned):'<span class="dash">—</span>';
     var dueCell=o.due?esc(o.due):'<span class="dash">—</span>';
-    body+='<tr><td class="ttl">'+esc(o.name)+'</td>'+
+    var nameCell=esc(o.name)+(o.doclink?' <a class="doclink" href="'+esc(o.doclink)+'" target="_blank" rel="noopener" title="Open document">&#128196;</a>':'');
+    body+='<tr><td class="ttl">'+nameCell+'</td>'+
       '<td class="team">'+teamCell+'</td>'+
       '<td class="asg">'+asgCell+'</td>'+
       '<td class="due'+(overdue?' overdue':'')+'">'+dueCell+'</td>'+
@@ -192,7 +194,8 @@ function load(){
     if(!rows.length){ banner("The spreadsheet is empty."); return; }
     var h = rows[0];
     var iName=colIdx(h,"wi name"), iTeam=colIdx(h,"team"), iStat=colIdx(h,"status"),
-        iAsg=colIdx(h,"assigned to"), iDue=colIdx(h,"due date"), iUpd=colIdx(h,"last updated");
+        iAsg=colIdx(h,"assigned to"), iDue=colIdx(h,"due date"), iUpd=colIdx(h,"last updated"),
+        iDoc=colIdx(h,"document link");
     if(iName<0){ banner("Couldn't find the <code>WI Name</code> column. Don't rename the headers."); return; }
     var objs=[];
     for(var r=1;r<rows.length;r++){
@@ -206,6 +209,7 @@ function load(){
         assigned:iAsg>-1?(row[iAsg]||"").trim():"",
         due:iDue>-1?(row[iDue]||"").trim():"",
         updated:iUpd>-1?(row[iUpd]||"").trim():"",
+        doclink:iDoc>-1?(row[iDoc]||"").trim():"",
         status:iStat>-1?(row[iStat]||"").trim():"Assigned"
       });
     }
