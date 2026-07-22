@@ -32,6 +32,12 @@ h1{font-size:clamp(24px,3.4vw,32px);line-height:1.15;margin:.3em 0 .2em;letter-s
 .branch{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
 .branch div{flex:1;min-width:190px;border:1px dashed var(--border);border-radius:10px;padding:8px 10px;font-size:12.5px;color:var(--muted)}
 .branch b{color:var(--ink)}
+.callout{background:var(--warn-bg);border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);
+  border-radius:var(--radius);padding:18px 20px;margin-top:6px}
+.callout h2{margin:0 0 8px;font-size:14px;letter-spacing:.03em;text-transform:uppercase;color:var(--warn)}
+.callout p{margin:0 0 8px;color:var(--ink);font-size:14.5px;line-height:1.65}
+.callout p:last-child{margin-bottom:0}
+.callout b{color:var(--warn)}
 footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;color:var(--faint)}
 </style>
 <div class="wrap">
@@ -53,14 +59,14 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);font-
       <div class="num">2</div>
       <div class="body">
         <h3>Filter to see what's waiting on you</h3>
-        <p>On the <a href="https://rwilbanks251-ctrl.github.io/aer-wi-tracker/detailed.html" target="_blank" rel="noopener">live tracker</a>, set the Status filter to <b>Andrew Paola Review</b> &mdash; that's your queue. (The Assigned To column tracks the team building each WI, not the reviewer, so filter by status here rather than by name.)</p>
+        <p>In the sheet, filter the Status column to <b>Andrew Paola Review</b> &mdash; that's your queue. (The Assigned To column tracks the team building each WI, not the reviewer, so filter by status here rather than by name.)</p>
       </div>
     </div>
     <div class="step">
       <div class="num">3</div>
       <div class="body">
-        <h3>Open the live Document Link</h3>
-        <p>Use the Document Link column on each row &mdash; that's the one shared file being reviewed, so any comments or notes land in the same place everyone else is working from.</p>
+        <h3>Open the Document Link</h3>
+        <p>Use the Document Link column on each row &mdash; that's the one shared template being reviewed, so any comments or notes land in the same place everyone else is working from.</p>
       </div>
     </div>
     <div class="step">
@@ -74,6 +80,12 @@ footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--border);font-
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="callout">
+    <h2>The standard to review against</h2>
+    <p>Every Work Instruction must be written so that <b>someone with zero prior knowledge could walk in off the street and perform the job using only the document.</b></p>
+    <p>Check for missing steps &mdash; not just the obvious ones, but the ones that feel automatic to someone experienced: every click, every field, every physical action, every judgment call. If a step is assumed rather than written down, that's a revision.</p>
   </div>
 
   <footer>AER Worldwide &mdash; proprietary &amp; confidential</footer>
