@@ -27,8 +27,12 @@ h1{font-size:22px;margin:0;letter-spacing:-.01em}
 .steps{display:flex;flex-direction:column;gap:9px}
 .step{display:flex;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:9px 12px}
 .step .num{flex:none;width:22px;height:22px;border-radius:50%;background:var(--step-bg);color:var(--step);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
+.step.physical .num{background:var(--phys-bg);color:var(--phys)}
 .step p{margin:0;font-size:13px;line-height:1.4}
 .step b{color:var(--ink)}
+.tag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:1px 6px;border-radius:99px;margin-right:6px;vertical-align:1px}
+.tag.makor{color:var(--step);background:var(--step-bg)}
+.tag.phys{color:var(--phys);background:var(--phys-bg)}
 .side{display:flex;flex-direction:column;gap:14px}
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px 14px}
 .panel h2{margin:0 0 8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
@@ -54,27 +58,27 @@ h1{font-size:22px;margin:0;letter-spacing:-.01em}
 
   <div class="cols">
     <div class="steps">
-      <div class="step"><div class="num">1</div><p>Search for the <b>serial number</b> on the physical device and confirm it matches the asset you're about to work in Makor before making any changes.</p></div>
-      <div class="step"><div class="num">2</div><p>Navigate to <b>Operations &gt; Tech</b>. Open <b>Tech Summary</b> and search for the order number.</p></div>
-      <div class="step"><div class="num">3</div><p>Select the <b>Category</b> column filter funnel, type the category (e.g. Laptop), and select <b>Filter</b> &mdash; this groups like assets so you grade one category at a time.</p></div>
-      <div class="step"><div class="num">4</div><p>Set items-per-page to <b>100</b> so the full filtered set fits on one page.</p></div>
-      <div class="step"><div class="num">5</div><p>Check the header checkbox to <b>select all</b> assets on the page, then select <b>Grade</b>.</p></div>
-      <div class="step"><div class="num">6</div><p>In the grade dialog, enter the device's actual <b>Cosmetic Grade</b> and <b>Functional Grade</b> based on real condition &mdash; testing results, screen/body wear, missing parts. Add Attributes if the device has anything callable out (e.g. cracked screen, missing charger).</p></div>
-      <div class="step"><div class="num">7</div><p>Select <b>Save</b> to apply the grades to the selected assets.</p></div>
-      <div class="step"><div class="num">8</div><p>Repeat filter &rarr; select all &rarr; grade for every remaining category. If a category has more than 100 items, work it in page sets of 100.</p></div>
-      <div class="step"><div class="num">9</div><p>Once everything is graded, select all again and choose <b>Move to Next Process</b>.</p></div>
-      <div class="step"><div class="num">10</div><p>Set <b>Next Process = Asset Inventory</b>, <b>Channel = Standard Resale</b> (or the correct channel for the order), leave Container as applicable, then select <b>Update</b>.</p></div>
-      <div class="step"><div class="num">11</div><p>The section is complete once every asset on the order has been moved out of Tech and into Asset Inventory &mdash; nothing should be left sitting in the Tech queue.</p></div>
+      <div class="step physical"><div class="num">1</div><p><span class="tag phys">Physical</span>Pull the device and locate the <b>serial number</b> on the unit itself.</p></div>
+      <div class="step"><div class="num">2</div><p><span class="tag makor">Makor</span>Go to <b>Operations &gt; Tech &gt; Tech Summary</b> and search by that serial (or the order number) to bring up the matching record.</p></div>
+      <div class="step physical"><div class="num">3</div><p><span class="tag phys">Physical</span>Visually inspect the device &mdash; screen, chassis, ports, keyboard/trackpad, missing covers or parts. Note anything unusual.</p></div>
+      <div class="step physical"><div class="num">4</div><p><span class="tag phys">Physical</span>Connect the device to the correct test tool (<b>MacCheck</b> / <b>PhoneCheck</b> / <b>WipeOS</b>) and run the standard diagnostic and wipe verification.</p></div>
+      <div class="step physical"><div class="num">5</div><p><span class="tag phys">Physical</span>Combine the test results with the cosmetic inspection to determine the device's actual <b>Cosmetic Grade</b> and <b>Functional Grade</b> &mdash; there is no default or shortcut grade.</p></div>
+      <div class="step"><div class="num">6</div><p><span class="tag makor">Makor</span>Filter the <b>Category</b> column to the device's category and select <b>Filter</b>, so like assets stay grouped as you work.</p></div>
+      <div class="step"><div class="num">7</div><p><span class="tag makor">Makor</span>Select the device (or the full graded batch on the page) and choose <b>Grade</b>; enter the Cosmetic Grade, Functional Grade, and any Attributes (e.g. cracked screen, missing charger), then <b>Save</b>.</p></div>
+      <div class="step physical"><div class="num">8</div><p><span class="tag phys">Physical</span>Place the device in its category's staging container/shelf, ready to move to inventory storage.</p></div>
+      <div class="step"><div class="num">9</div><p><span class="tag makor">Makor</span>Repeat steps 1&ndash;8 for the rest of the batch. Once every device in a category is graded and physically staged, select all and choose <b>Move to Next Process</b>.</p></div>
+      <div class="step"><div class="num">10</div><p><span class="tag makor">Makor</span>Set <b>Next Process = Asset Inventory</b>, <b>Channel = Standard Resale</b> (or the order's correct channel), then select <b>Update</b>.</p></div>
+      <div class="step physical"><div class="num">11</div><p><span class="tag phys">Physical</span>Move the device to its permanent inventory storage location, matching where Makor now shows it.</p></div>
+      <div class="step"><div class="num">12</div><p>The section is complete once nothing is left in the Tech queue and no graded device is sitting unstaged on the floor.</p></div>
     </div>
 
     <div class="side">
       <div class="panel physical">
-        <h2>Physical, at the same time</h2>
+        <h2>Don't skip these</h2>
         <ul>
-          <li>Pull each device from its test station/cart as it clears grading.</li>
-          <li>Match the physical device to its Makor tag before moving on &mdash; don't grade from memory across a batch.</li>
-          <li>Place graded devices in the correct staging container/shelf location for their category, ready for pickup to inventory storage.</li>
+          <li>Match the physical device to its Makor tag/serial before grading &mdash; never grade from memory across a batch.</li>
           <li>Flag and set aside anything that fails a physical check the system doesn't catch (loose parts, damage found after the software test passed).</li>
+          <li>A device isn't done until it's both graded in Makor <b>and</b> physically staged &mdash; one without the other is an open item.</li>
         </ul>
       </div>
       <div class="panel">
