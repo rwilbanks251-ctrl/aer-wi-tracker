@@ -1,0 +1,92 @@
+<title>Processing Inventory in Tech — Quick Reference</title>
+<style>
+:root{
+  --bg:#eef1f5; --surface:#fff; --surface-2:#f7f9fb; --ink:#16202e; --muted:#5b6775; --faint:#8a95a4;
+  --border:#e0e5ec; --navy:#152B47; --amber:#F0B429; --step:#185fa5; --step-bg:#e6f1fb;
+  --phys:#3b6d11; --phys-bg:#eaf3de; --warn:#a15c00; --warn-bg:#fbeedd;
+  --shadow:0 1px 2px rgba(18,32,48,.06),0 4px 16px rgba(18,32,48,.05);
+  --radius:12px; --sans:"Segoe UI",-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0e1621; --surface:#16202e; --surface-2:#1b2735; --ink:#e8edf4; --muted:#9aa6b6; --faint:#6f7d8e;
+    --border:#26313f; --navy:#0c1a2b; --step:#7ec3ec; --step-bg:#123147;
+    --phys:#97c459; --phys-bg:#1f2e14; --warn:#f0a94e; --warn-bg:#3a2a12;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); }
+}
+:root[data-theme="light"]{ --bg:#eef1f5; --surface:#fff; --surface-2:#f7f9fb; --ink:#16202e; --muted:#5b6775; --faint:#8a95a4; --border:#e0e5ec; --navy:#152B47; --step:#185fa5; --step-bg:#e6f1fb; --phys:#3b6d11; --phys-bg:#eaf3de; --warn:#a15c00; --warn-bg:#fbeedd; }
+:root[data-theme="dark"]{ --bg:#0e1621; --surface:#16202e; --surface-2:#1b2735; --ink:#e8edf4; --muted:#9aa6b6; --faint:#6f7d8e; --border:#26313f; --navy:#0c1a2b; --step:#7ec3ec; --step-bg:#123147; --phys:#97c459; --phys-bg:#1f2e14; --warn:#f0a94e; --warn-bg:#3a2a12; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.45;-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding:26px 26px 40px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid var(--amber);padding-bottom:10px;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);font-weight:700;margin:0 0 4px}
+h1{font-size:22px;margin:0;letter-spacing:-.01em}
+.head .meta{font-size:11.5px;color:var(--muted);text-align:right}
+.cols{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+@media (max-width:680px){.cols{grid-template-columns:1fr}}
+.steps{display:flex;flex-direction:column;gap:9px}
+.step{display:flex;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:9px 12px}
+.step .num{flex:none;width:22px;height:22px;border-radius:50%;background:var(--step-bg);color:var(--step);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
+.step p{margin:0;font-size:13px;line-height:1.4}
+.step b{color:var(--ink)}
+.side{display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px 14px}
+.panel h2{margin:0 0 8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.panel.physical h2{color:var(--phys)}
+.panel.physical{background:var(--phys-bg);border-color:color-mix(in srgb,var(--phys) 35%,transparent)}
+.panel ul{margin:0;padding-left:16px;font-size:12.5px;line-height:1.55}
+.panel li{margin-bottom:3px}
+.gradebox{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;margin-top:4px}
+.gradebox div{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:6px 8px}
+.gradebox b{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+.warn{background:var(--warn-bg);border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);border-radius:var(--radius);padding:10px 12px;font-size:12px;line-height:1.5}
+.warn b{color:var(--warn)}
+@media print{ body{background:#fff} .step,.panel{box-shadow:none} }
+</style>
+<div class="wrap">
+  <div class="head">
+    <div>
+      <p class="eyebrow">AER Worldwide &middot; Tech</p>
+      <h1>Processing Inventory in Tech</h1>
+    </div>
+    <div class="meta">Quick reference &middot; Makor: Operations &rarr; Tech</div>
+  </div>
+
+  <div class="cols">
+    <div class="steps">
+      <div class="step"><div class="num">1</div><p>Navigate to <b>Operations &gt; Tech</b>. Open <b>Tech Summary</b> and search for the order number.</p></div>
+      <div class="step"><div class="num">2</div><p>Select the <b>Category</b> column filter funnel, type the category (e.g. Laptop), and select <b>Filter</b> &mdash; this groups like assets so you grade one category at a time.</p></div>
+      <div class="step"><div class="num">3</div><p>Set items-per-page to <b>100</b> so the full filtered set fits on one page.</p></div>
+      <div class="step"><div class="num">4</div><p>Check the header checkbox to <b>select all</b> assets on the page, then select <b>Grade</b>.</p></div>
+      <div class="step"><div class="num">5</div><p>In the grade dialog, enter the device's actual <b>Cosmetic Grade</b> and <b>Functional Grade</b> based on real condition &mdash; testing results, screen/body wear, missing parts. Add Attributes if the device has anything callable out (e.g. cracked screen, missing charger).</p></div>
+      <div class="step"><div class="num">6</div><p>Select <b>Save</b> to apply the grades to the selected assets.</p></div>
+      <div class="step"><div class="num">7</div><p>Repeat filter &rarr; select all &rarr; grade for every remaining category. If a category has more than 100 items, work it in page sets of 100.</p></div>
+      <div class="step"><div class="num">8</div><p>Once everything is graded, select all again and choose <b>Move to Next Process</b>.</p></div>
+      <div class="step"><div class="num">9</div><p>Set <b>Next Process = Asset Inventory</b>, <b>Channel = Standard Resale</b> (or the correct channel for the order), leave Container as applicable, then select <b>Update</b>.</p></div>
+      <div class="step"><div class="num">10</div><p>The section is complete once every asset on the order has been moved out of Tech and into Asset Inventory &mdash; nothing should be left sitting in the Tech queue.</p></div>
+    </div>
+
+    <div class="side">
+      <div class="panel physical">
+        <h2>Physical, at the same time</h2>
+        <ul>
+          <li>Pull each device from its test station/cart as it clears grading.</li>
+          <li>Match the physical device to its Makor tag before moving on &mdash; don't grade from memory across a batch.</li>
+          <li>Place graded devices in the correct staging container/shelf location for their category, ready for pickup to inventory storage.</li>
+          <li>Flag and set aside anything that fails a physical check the system doesn't catch (loose parts, damage found after the software test passed).</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h2>Grade reference</h2>
+        <div class="gradebox">
+          <div><b>Cosmetic</b>C1 &ndash; C10 scale, by wear/condition</div>
+          <div><b>Functional</b>F1 &ndash; F6 scale, by working features</div>
+        </div>
+        <p style="font-size:11.5px;color:var(--muted);margin:8px 0 0">Grade every device on its actual condition &mdash; there is no default or shortcut grade for internal inventory.</p>
+      </div>
+      <div class="warn">
+        <b>Note:</b> Container and Channel values vary by order/customer requirements &mdash; confirm the order's Instructions (top-right icon row in Makor) before moving to inventory if unsure.
+      </div>
+    </div>
+  </div>
+</div>
